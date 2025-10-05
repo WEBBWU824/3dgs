@@ -52,7 +52,7 @@ version: 12.1
 python train.py -s <数据集文件夹的路径>
 ```
 即可开始训练，这里我选择用他的SfM data，点击第二个here(https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/datasets/input/tandt_db.zip)
-![输入图片说明](/imgs/屏幕截图 2025-10-05 172617.png)下载到自己的电脑可以得到tandt_db.zip，然后通过AutoDL的Jupyter可以把tandt_db.zip上传到云服务器（具体操作可见[AutoDL帮助文档](https://www.autodl.com/docs/jupyterlab/)），就可以通过VSCode的终端命令解压得到tandt和db两个包含数据集的文件夹。
+![输入图片说明](/imgs/01.png)下载到自己的电脑可以得到tandt_db.zip，然后通过AutoDL的Jupyter可以把tandt_db.zip上传到云服务器（具体操作可见[AutoDL帮助文档](https://www.autodl.com/docs/jupyterlab/)），就可以通过VSCode的终端命令解压得到tandt和db两个包含数据集的文件夹。
 ### 运行时遇到的问题
 在输入train命令后，出现报错：
 ```
@@ -103,14 +103,14 @@ ImportError: /root/miniconda3/envs/gaussian_splatting/lib/python3.10/site-packag
 # 重新激活环境 
 	conda deactivate conda activate gaussian_splatting 
 ```
-此时输入对于db文件夹中train文件夹的训练指令，终于可以出现Training process的进度条![输入图片说明](/imgs/屏幕截图 2025-10-05 001854.png)
+此时输入对于db文件夹中train文件夹的训练指令，终于可以出现Training process的进度条![输入图片说明](/imgs/02.png)
 ## 结果可视化
 
 > Training process结束后可以得到云服务器上的output文件，将output文件通过终端命令压缩成zip文件，通过AutoDL的Jupyter下载到本地Windows，然后在本地进行可视化。
 
 官方文档中给出交互式查看的方法，以下是在本地配置环境的步骤：
 
- 1. 点击官方文档给出的here，解压后得到viewers文件夹![输入图片说明](/imgs/屏幕截图 2025-10-06 010656.png)
+ 1. 点击官方文档给出的here，解压后得到viewers文件夹![输入图片说明](/imgs/03.png)
  2. 在浏览器中打开https://developer.nvidia.com/cuda-12-1-0-download-archive，下载CUDA v12.1。
  3. 进入下载好的CUDA文件夹，找到bin文件夹中的cudart64_12.dll；打开第一步得到的viewers，打开bin文件夹；把cudart64_12.dll复制到viewers的bin文件夹。
 
@@ -118,5 +118,5 @@ ImportError: /root/miniconda3/envs/gaussian_splatting/lib/python3.10/site-packag
 ```
 SIBR_gaussianViewer_app.exe -m <...\output\2b9de26e-e> (这里输入绝对路径）
 ```
-最终即可得到最终结果展现![输入图片说明](/imgs/屏幕截图 2025-10-06 005223.png)
-至于在SIBR的可视化界面里，一些操作按键和界面里的图形化按键可以参考官方文档，例如移动视角的按键如图里所说![输入图片说明](/imgs/屏幕截图 2025-10-06 021555.png)
+最终即可得到最终结果展现![输入图片说明](/imgs/04.png)
+至于在SIBR的可视化界面里，一些操作按键和界面里的图形化按键可以参考官方文档，例如移动视角的按键如图里所说![输入图片说明](/imgs/05.png)
