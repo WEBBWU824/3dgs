@@ -2,9 +2,9 @@
 
 成功完成实验后，可以看到有一个submodules文件夹，里面就是CUDA代码。
 
-整体阅读参考链接里的目录，可以分出五类代码：
+整体阅读参考链接里的目录，可以主要分为**前传**和**反传**代码：
 
- ## 1. CUDA前向传播代码
+ ## CUDA前向传播代码
  作用：
 **前向传播**是把场景中每个 Gaussian 的参数经过一系列变换、投影和光度计算，最后在图像平面上合成像素颜色与深度。其目的是生成渲染结果。
 可以输入Gaussian参数、相机参数、图像尺寸，输出渲染后的颜色图、深度、2D坐标、半径等等。
@@ -566,7 +566,7 @@ CudaRasterizer::BinningState CudaRasterizer::BinningState::fromChunk(char*& chun
 ```
 将高斯点分配到屏幕 tile，负责高斯点与瓦片的排序与匹配
 
-## 2. CUDA前传预处理代码
+## CUDA前传预处理代码
 1. FORWARD::preprocess()
 ```cpp
 void FORWARD::preprocess(
@@ -1004,7 +1004,7 @@ __forceinline__ __device__ float ndc2Pix(float v, int S) // S 是屏幕分辨率
 ```
 将归一化设备坐标（Normalized Device Coordinates, NDC）[-1, 1] 转换为像素坐标（pixel coordinate）[0, S-1]
 
-## 3. CUDA前传渲染代码
+## CUDA前传渲染代码
 1. FORWARD::render()
 ```cpp
 void FORWARD::render(
@@ -1401,7 +1401,16 @@ void CudaRasterizer::Rasterizer::backward(
     
 -   **参数级反向（preprocess ）**（屏幕属性梯度 → 3D 参数梯度）：把第二步得到的 2D 空间梯度继续往上推，转换成对 3D 均值 `means3D`、3D 协方差 `cov3D`、尺度 `scales`、旋转 `rotations`、以及 SH 系数 `shs` 的梯度。这由 `BACKWARD::preprocess(...)` 完成。
 
+# 对比前向传播和反向传播
+|  |前传 |反传 |
+|--|--|--|
+| 数据流向 | 3D参数 → 2D参数 → 像素颜色 |像素梯度 → 2D梯度 → 3D梯度|
+| 遍历顺序 | 从前到后（深度排序） |    从后到前（反向遍历） |
+| 目标 |生成最终图像  |计算参数梯度 |
+|计算公式 | 主要是变换和混合 |  主要是链式法则和偏导数 |
+| 并行策略 | 每个线程独立处理 | 需要原子操作处理梯度累积  |
 
+p.s.原子操作：操作不可再分。在并发场景下，必须要用到原子操作保证数据是一致的，否则不同线程下可能结果与期望不同。
 
 
 
