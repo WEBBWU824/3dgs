@@ -1,6 +1,6 @@
 # 3DGS与DepthSplat的技术路线对比
 ## 3DGS的技术路线
-![输入图片说明](/imgs/2025-10-29/WxEVOjszwlLIeMw4.png)
+![输入图片说明](/imgs/3DGS pipeline.png)
 ### 一、初始化
 **输入Sfm点云**，在每个点云的位置创建3D高斯，得到每个高斯点的高斯参数。
 ### 二、迭代（核心）
@@ -11,7 +11,7 @@
 • 致密化: 欠重建区域 → 增加高斯）
 每100次迭代增删一次透明度低的高斯
 ## DepthSplat的技术路线
-![输入图片说明](/imgs/2025-10-30/9G0aN5JZVFiQhNnx.png)
+![输入图片说明](/imgs/DepthSplat pipeline.png)
 **输入多视角图像**，分为并行的双分支特征提取（多视图分支、单目分支）
 ### 多视图分支
 在 Multi-View Transformer 步骤输出多视图感知特征（$F_i$）；在 Cost Volume 步骤经过假设每个视图的$F_i$采样深度、特征扭曲、计算相关性，最终把所有$d_m$的相关性堆叠到一个**代价体$C_i$** ，形状是（$\frac{H}{s} × \frac{W}{s} × D$）。
