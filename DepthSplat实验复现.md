@@ -79,6 +79,6 @@ output_dir=outputs/re10k_full_test
 
 ```
 其中videos就是渲染出的图片，与官方文档给出的一致。
-<video width="320" height="240" controls>
-    <source src="imgs/656381bea665bf3d_frame_0_135.mp4" type="video/mp4">
+<video width="256" height="256" controls>
+    <source src=imgs/656381bea665bf3d_frame_0_135.mp4 type="video/mp4">
 </video>
